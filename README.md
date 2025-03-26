@@ -1,11 +1,17 @@
 # Eid Card Generator
  A Lightweight Eid Card Generator
 
+
+## Limitations
+
+* No Auto Text Wrapping
+* Limited Templates
+
 ## Licensing
 
 This project uses multiple licenses.
 
-* All source code (files ending in `.js`, `.css`, `.html`, etc., excluding files in the `templates` directory) is licensed under the **MIT License**. See the [LICENSE](LICENSE-MIT.txt) file for details.
+* All source code (files ending in `.js`, `.css`, `.html`, etc., excluding files in the `templates` directory) is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 * The SVG image files located in the `templates` directory are licensed under the **Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License (CC BY-NC-ND 4.0)**. Visit [https://creativecommons.org/licenses/by-nc-nd/4.0/](https://creativecommons.org/licenses/by-nc-nd/4.0/).
 
