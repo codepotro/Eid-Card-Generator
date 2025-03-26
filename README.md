@@ -4,6 +4,8 @@
 ![Preview](https://github.com/user-attachments/assets/da130cc1-4965-44f4-9ec9-9684effbc50c)
 
 
+[Demo](https://codepotro.github.io/Eid-Card-Generator/)
+
 ## Limitations
 
 * No Auto Text Wrapping
