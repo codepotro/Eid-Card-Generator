@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eid Mubarak - Codepotro</title>
+    <link href="dist/eid.css?v=1" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <style>
+        @font-face {
+            font-family: "codepotro-abu-sayed";
+            src: local("AbuSayed"), local("AbuSayed-Regular"), url('assets/AbuSayed-Regular.woff2');
+        }
+
+        .font-abu-sayed {
+            font-family: codepotro-abu-sayed;
+        }
+
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #receiverContainer svg {
+            max-width: 100vw;
+            max-height: 100vh;
+            width: auto;
+            height: auto;
+            display: block;
+            margin: auto;
+        }
+
+        @media (max-width: 768px) {
+            #cardPreviewContainer {
+                max-width: 90%;
+            }
+
+            .main-container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .arrow-button {
+                width: 2rem;
+                height: 2rem;
+            }
+
+            .arrow-button svg {
+                width: 0.8rem;
+                height: 0.8rem;
+            }
+        }
+
+        #svgContainer>svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .arrow-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .arrow-button:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .arrow-button svg {
+            width: 1rem;
+            height: 1rem;
+            fill: #333;
+        }
+
+        .arrow-left {
+            left: -1.25rem;
+        }
+
+        .arrow-right {
+            right: -1.25rem;
+        }
+
+        .template-thumbnail.selected {
+            border-color: #4a5568;
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(74, 85, 104, 0.5);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex justify-center items-center min-h-screen p-6">
+    <div
+        class="glassmorphism p-8 rounded-3xl w-full max-w-4xl flex flex-col md:flex-row items-center md:items-start space-y-8 md:space-y-0 md:space-x-8 main-container">
+        <div class="w-full md:w-1/2 flex justify-center relative" id="cardPreviewContainer">
+            <button id="prevButton" class="arrow-button arrow-left" aria-label="Previous Template">
+                <svg viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div id="cardPreview"
+                class="relative w-full rounded-2xl overflow-hidden aspect-[5/8] flex justify-center items-center border-black-200 shadow-lg max-h-full">
+                <div id="svgContainer" class="w-full h-full shadow-2xl font-abu-sayed"></div>
+            </div>
+            <button id="nextButton" class="arrow-button arrow-right" aria-label="Next Template">
+                <svg viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+        <div class="w-full md:w-1/2 flex flex-col space-y-6">
+            <h1 class="text-3xl text-gray-800 font-abu-sayed text-center tracking-wide">
+                ঈদ কার্ড!
+            </h1>
+            <label class="text-xl font-abu-sayed  text-gray-700">টেমপ্লেট:</label>
+            <div id="templateThumbnails" class="flex overflow-x-auto space-x-4 py-3 px-2 scrollbar-hide">
+            </div>
+            <label class="text-xl font-abu-sayed text-gray-700">আপনার নোট:</label>
+            <textarea id="noteInput" placeholder="আপনার নোট লিখুন" maxlength="100"
+                class="w-full px-4 py-3 rounded-xl bg-white/50 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-gray-300 focus:outline-none transition-all duration-300"></textarea>
+            <label class="text-xl font-abu-sayed text-gray-700">আপনার নাম:</label>
+            <input type="text" id="nameInput" placeholder="নিজের নাম লিখুন" maxlength="50"
+                class="w-full px-4 py-3 rounded-xl bg-white/50 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-gray-300 focus:outline-none transition-all duration-300">
+            <div class="flex space-x-4">
+                <button id="downloadCardButton"
+                    class="w-full bg-gray-700 hover:bg-gray-600 text-white font-abu-sayed py-3 rounded-xl text-md transition-colors duration-300 flex items-center justify-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd"
+                            d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.22-3.22a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.22 3.22V3a.75.75 0 0 1 .75-.75Zm-9 13.5a.75.75 0 0 1 .75.75v2.25a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5V16.5a.75.75 0 0 1 1.5 0v2.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V16.5a.75.75 0 0 1 .75-.75Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span>ডাউনলোড</span>
+                </button>
+                <button id="shareCardButton"
+                    class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-abu-sayed text-md transition-colors duration-300 flex items-center justify-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd"
+                            d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span>শেয়ার</span>
+                </button>
+                <button id="downloadQRCodeButton"
+                    class="w-full bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-abu-sayed text-md transition-colors duration-300 flex items-center justify-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h.75v.75h-.75v-.75ZM13.5 19.5h.75v.75h-.75v-.75ZM19.5 13.5h.75v.75h-.75v-.75ZM19.5 19.5h.75v.75h-.75v-.75ZM16.5 16.5h.75v.75h-.75v-.75Z" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex justify-center items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="pt-2 mx-auto md:mx-1"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="50" viewBox="0 0 1377.5643 180.6184">
+                    <defs>
+                        <linearGradient id="b7104b2e-eecf-453b-b040-807860107d08" y1="90.3092" x2="271.3143"
+                            y2="90.3092" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#6a8cff"></stop>
+                            <stop offset="0.3341" stop-color="#6a83ff"></stop>
+                            <stop offset="0.498" stop-color="#6a7cff"></stop>
+                            <stop offset="1" stop-color="#6a90ff"></stop>
+                        </linearGradient>
+                    </defs>
+                    <g id="e8970b2a-70bf-4cce-939b-eed35ee87ca4" data-name="Layer 2">
+                        <g id="a1f3ba95-4b08-4e6f-b82a-43fee9608301" data-name="Layer 1">
+                            <path
+                                d="M125.1353,45.1578c-.6075-3.6048-3.6956-19.5772-17.8694-28.866a40.649,40.649,0,0,0-24.4548-6.22c-35.2215,1.7575-57.2591,47.02-60.067,52.977C7.0628,96.3155,2.9036,146.8932,27.3606,164.29c3.4864,2.48,9.8507,5.9424,20.2005,6.3,70.0689,2.4181,127.1161-145.75,172.7664-136.3453,33.13,6.8256,54.91,95.5109,30.6382,113.2341-22.6782,16.56-85.9195-28.5708-154.7234-89.2341"
+                                style="fill:none;stroke-miterlimit:10;stroke-width:20px;stroke:url(#b7104b2e-eecf-453b-b040-807860107d08)">
+                            </path>
+                            <path
+                                d="M125.1353,45.1578c-.6076-3.6048-3.6956-19.5772-17.8694-28.866a40.649,40.649,0,0,0-24.4548-6.22C47.59,11.8291,25.552,57.0917,22.7441,63.0485c-15.6813,33.267-19.84,83.8447,4.6165,101.241,3.4864,2.48,9.8508,5.9424,20.2005,6.3,70.0689,2.4181,127.1161-145.75,172.7663-136.3453,33.13,6.8256,54.91,95.5109,30.6383,113.2341-22.6782,16.56-85.9195-28.5708-154.7234-89.2341"
+                                style="fill:none;stroke-miterlimit:10;stroke-width:20px;stroke:url(#b7104b2e-eecf-453b-b040-807860107d08)">
+                            </path>
+                            <path d="M407.7073,133.7223a54.3685,54.3685,0,1,1,2.0782-72.9014"
+                                style="fill:none;stroke:#3c3c3c;stroke-width:15px"></path>
+                            <circle cx="482.5718" cy="96.5254" r="54.3703"
+                                style="fill:none;stroke:#3c3c3c;stroke-width:15px">
+                            </circle>
+                            <circle cx="614.558" cy="96.5254" r="54.3703"
+                                style="fill:none;stroke:#3c3c3c;stroke-width:15px"></circle>
+                            <path d="M793.3586,65.5465q.0856.1235.1707.2472"
+                                style="fill:none;stroke:#3c3c3c;stroke-width:15px">
+                            </path>
+                            <path d="M785.3,136.7064a54.3676,54.3676,0,1,1,8.0587-71.16l-83.8038,63.7319"
+                                style="fill:none;stroke:#3c3c3c;stroke-width:15px"></path>
+                            <circle cx="1003.6554" cy="96.5254" r="54.3703"
+                                style="fill:none;stroke:#3c3c3c;stroke-width:15px">
+                            </circle>
+                            <circle cx="869.5422" cy="96.5254" r="54.3703"
+                                style="fill:none;stroke:#3c3c3c;stroke-width:15px">
+                            </circle>
+                            <circle cx="1315.6941" cy="96.5254" r="54.3703"
+                                style="fill:none;stroke:#3c3c3c;stroke-width:15px">
+                            </circle>
+                            <path
+                                d="M1138.8956,150.8957c-30.0279,0-54.37-22.903-54.37-51.1553s24.3424-51.1554,54.37-51.1554"
+                                style="fill:none;stroke:#3c3c3c;stroke-width:15px"></path>
+                            <path
+                                d="M1238.8261,88.0414c0-21.7912-17.985-39.4564-40.1706-39.4564s-40.1707,17.6652-40.1707,39.4564V157.925"
+                                style="fill:none;stroke:#3c3c3c;stroke-width:15px"></path>
+                            <line x1="1158.4848" y1="86.7763" x2="1158.4848" y2="34.7496"
+                                style="fill:none;stroke:#3c3c3c;stroke-width:15px"></line>
+                            <line x1="1084.6662" y1="102.2726" x2="1084.6662" y2="34.7496"
+                                style="fill:none;stroke:#3c3c3c;stroke-miterlimit:10;stroke-width:15px"></line>
+                            <line x1="668.9283" y1="96.5254" x2="668.9283" y2="19.9128"
+                                style="fill:none;stroke:#3c3c3c;stroke-miterlimit:10;stroke-width:15px"></line>
+                            <line x1="815.1719" y1="96.5254" x2="815.1719" y2="170.7542"
+                                style="fill:none;stroke:#3c3c3c;stroke-miterlimit:10;stroke-width:15px"></line>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
