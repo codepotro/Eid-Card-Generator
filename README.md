@@ -1,6 +1,8 @@
 # Eid Card Generator
  A Lightweight Eid Card Generator
 
+![Preview](https://github.com/user-attachments/assets/da130cc1-4965-44f4-9ec9-9684effbc50c)
+
 
 ## Limitations
 
