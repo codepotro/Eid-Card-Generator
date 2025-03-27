@@ -1,0 +1,6 @@
+/* ensure cursor pointer & padding for button  */
+.eid-button{
+    cursor: pointer;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
